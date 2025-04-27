@@ -49,5 +49,13 @@ function hapusKegiatan(index) {
 </template>
 
 <style scoped>
+.selesai {
+  text-decoration: line-through;
+  color: #999;
+  transition: all 0.3s ease;
+}
+li:hover {
+  background-color: #eef6f6;
+}
 
 </style>
