@@ -15,6 +15,12 @@ function tambahKegiatan() {
     kegiatanBaru.value = '' // Clear input setelah tambah
   }
 }
+function hapusKegiatan(index) {
+  if (confirm('Yakin ingin menghapus kegiatan ini?')) {
+    daftarKegiatan.value.splice(index, 1)
+  }
+}
+
 </script>
 
 <template>
@@ -31,6 +37,7 @@ function tambahKegiatan() {
     <ul>
       <li v-for="(kegiatan, index) in daftarKegiatan" :key="index">
         {{ kegiatan }}
+        <button @click="hapusKegiatan(index)">🗑️</button>
       </li>
     </ul>
   </div>
