@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 
 const daftarKegiatan = ref([
-  'Gym',
-  'Traveling',
+{ nama: 'Traveling', selesai: false },
+{ nama: 'Gym', selesai: true }
 ])
 // Data untuk input kegiatan baru
 const kegiatanBaru = ref('')
@@ -11,10 +11,14 @@ const kegiatanBaru = ref('')
 // Function untuk tambah kegiatan
 function tambahKegiatan() {
   if (kegiatanBaru.value.trim() !== '') {
-    daftarKegiatan.value.push(kegiatanBaru.value)
-    kegiatanBaru.value = '' // Clear input setelah tambah
+    daftarKegiatan.value.push({
+      nama: kegiatanBaru.value,
+      selesai: false
+    })
+    kegiatanBaru.value = ''
   }
 }
+//Function untuk hapus kegiatan
 function hapusKegiatan(index) {
   if (confirm('Yakin ingin menghapus kegiatan ini?')) {
     daftarKegiatan.value.splice(index, 1)
@@ -36,7 +40,8 @@ function hapusKegiatan(index) {
     </form>
     <ul>
       <li v-for="(kegiatan, index) in daftarKegiatan" :key="index">
-        {{ kegiatan }}
+        <input type="checkbox" v-model="kegiatan.selesai" />
+        <span :class="{ selesai: kegiatan.selesai }">{{ kegiatan.nama }}</span>
         <button @click="hapusKegiatan(index)">🗑️</button>
       </li>
     </ul>
