@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 
 const daftarKegiatan = ref([
 { nama: 'Traveling', selesai: false },
@@ -7,6 +7,16 @@ const daftarKegiatan = ref([
 ])
 // Data untuk input kegiatan baru
 const kegiatanBaru = ref('')
+
+// Filter untuk hanya tampilkan yang belum selesai
+const tampilkanBelumSelesai = ref(false)
+// Computed untuk filter data
+const kegiatanTampil = computed(() => {
+  if (tampilkanBelumSelesai.value) {
+    return daftarKegiatan.value.filter(kegiatan => !kegiatan.selesai)
+  }
+  return daftarKegiatan.value
+})
 
 // Function untuk tambah kegiatan
 function tambahKegiatan() {
@@ -38,8 +48,16 @@ function hapusKegiatan(index) {
       />
       <button type="submit">Tambah</button>
     </form>
+
+    <div class="filter">
+      <label>
+        <input type="checkbox" v-model="tampilkanBelumSelesai" />
+        Tampilkan kegiatan yang belum selesai
+      </label>
+    </div>
+
     <ul>
-      <li v-for="(kegiatan, index) in daftarKegiatan" :key="index">
+      <li v-for="(kegiatan, index) in kegiatanTampil" :key="index">
         <input type="checkbox" v-model="kegiatan.selesai" />
         <span :class="{ selesai: kegiatan.selesai }">{{ kegiatan.nama }}</span>
         <button @click="hapusKegiatan(index)">🗑️</button>
